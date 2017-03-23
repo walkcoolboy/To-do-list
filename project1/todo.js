@@ -3,5 +3,10 @@ $(document).ready(function(e) {
 		function() {
 			$('#new-todo').dialog('open');
 		});
-  $('#new-todo').dialog({ modal : true, autoOpen : false });
+  $('#new-todo').dialog({ modal : true, autoOpen : false,
+  		buttons : {
+			"Add task" : function () { },
+			"Cancel" : function () { $(this).dialog('close'); }
+		} 
+	});
 }); // end ready
