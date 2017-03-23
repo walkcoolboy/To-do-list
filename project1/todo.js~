@@ -1,0 +1,4 @@
+$(document).ready(function(e) {
+  $('#add-todo').button({icons:{primary:"ui-icon-circle-plus"}});
+  $('#new-todo').dialog({ modal : true, autoOpen : false });
+}); // end ready
