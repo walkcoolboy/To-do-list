@@ -3,5 +3,18 @@ $(document).ready(function(e) {
 		function() {
 			$('#new-todo').dialog('open');
 		});
-  $('#new-todo').dialog({ modal : true, autoOpen : false });
+  $('#new-todo').dialog({ modal : true, autoOpen : false,
+  		buttons : {
+			"Add task" : function () {
+				var taskName= $('#task').val();
+				if (taskName === "") {return false;}
+				var taskHTML = '<li><span class="done">%</span>';
+				taskHTML += '<span class="delete">x</span>';
+				taskHTML += '<span class="task"></span></li>';
+				var $newTask = $(taskHTML);
+				$newTask.find('.task').text(taskName);
+			},
+			"Cancel" : function () { $(this).dialog('close'); }
+		} 
+	});
 }); // end ready
