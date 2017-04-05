@@ -1,4 +1,10 @@
 $(document).ready(function(e) {
+
+  //prevent default submitting for all forms
+  $(document).on("submit", "form", function(e){
+    e.preventDefault();
+  });
+
   $('#add-todo').button({icons:{primary:"ui-icon-circle-plus"}}).click(
 		function() {
 			$('#task').val(""); //clean up the task input every time
@@ -11,7 +17,8 @@ $(document).ready(function(e) {
 				var taskName= $('#task').val();
 				if (taskName === "") {return false;}
 				var taskHTML = '<li><span class="done">%</span>';
-				taskHTML += '<span class="delete">x</span>';
+        taskHTML += '<span class="edit">+</span>';
+        taskHTML += '<span class="delete">x</span>';
 				taskHTML += '<span class="task"></span></li>';
 				var $newTask = $(taskHTML);
 				$newTask.find('.task').text(taskName);
@@ -34,12 +41,36 @@ $(document).ready(function(e) {
 		});
 	});
 
+  //set edit dialog here
+  $('#edit').dialog({ modal : true, autoOpen : false});
+
+  //allow edit
+  $('#todo-list').on('click', '.edit', function() {
+    var $taskNameInToDoList = $(this).parent('li').find('.task');
+    var $taskNameInEdit=$('#edit-task');
+    $taskNameInEdit.val($taskNameInToDoList.html());
+    //setting edit dialog buttons
+    $('#edit').dialog({
+              buttons : {
+              "Confirm" : function () {
+                  $(this).dialog('close');
+                  $taskNameInToDoList.text($taskNameInEdit.val());
+                },
+              "Cancel" : function () {
+                  $(this).dialog('close');
+                }
+              }
+        });
+    //open dialog
+    $('#edit').dialog('open');
+  });
+
 //allow drag and drop
   $('.sortlist').sortable({
       connectWith : '.sortlist',
       cursor : 'pointer',
       placeholder : 'ui-state-highlight',
-      cancel : '.delete,.done'
+      cancel : '.delete,.done,.edit'
   });
 
   //set delete confirm dialog here
