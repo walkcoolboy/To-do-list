@@ -41,4 +41,29 @@ $(document).ready(function(e) {
       placeholder : 'ui-state-highlight',
       cancel : '.delete,.done'
   });
+
+  //set delete confirm dialog here
+  $('#delete-confirm').dialog({ modal : true, autoOpen : false});
+
+  //allow delete
+  $('.sortlist').on('click','.delete',function() {
+      var $this=$(this);
+      //setting delete confirm dialog buttons
+      $('#delete-confirm').dialog({
+                buttons : {
+                "Delete" : function () {
+                    $(this).dialog('close');
+                    $this.parent('li').effect('puff', function() {
+                      $this.remove();
+                    });
+                  },
+                "Cancel" : function () {
+                    $(this).dialog('close');
+                  }
+                }
+          });
+      //open dialog
+      $('#delete-confirm').dialog('open');
+  });
+
 }); // end ready
